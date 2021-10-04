@@ -3,8 +3,9 @@
 - 🔭 I’m currently working on [Jabar Digital Service](https://digitalservice.jabarprov.go.id/)
 - 🌱 I’m currently learning [Svelte](https://svelte.dev/) & [Astro](https://astro.build/)
 
-| [![Rendiriz's GitHub stats](https://github-readme-stats.vercel.app/api?username=rendiriz)](https://github.com/rendiriz) | [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=rendiriz&layout=compact&langs_count=8)](https://github.com/rendiriz) |
-| ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=rendiriz&layout=compact&langs_count=8)](https://github.com/rendiriz)
+
+[![Rendiriz's GitHub stats](https://github-readme-stats.vercel.app/api?username=rendiriz)](https://github.com/rendiriz)
 
 <!--
 **rendiriz/rendiriz** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
