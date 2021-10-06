@@ -1,7 +1,7 @@
 ### Hi there, I'm Rendi 👋
 
 - 🔭 I’m currently working on [Jabar Digital Service](https://digitalservice.jabarprov.go.id/)
-- 🌱 I’m currently learning [Svelte](https://svelte.dev/) & [Astro](https://astro.build/)
+- 🌱 I’m currently learning [Nx](https://nx.dev/), [Svelte](https://svelte.dev/) & [Astro](https://astro.build/)
 
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=rendiriz&layout=compact&langs_count=8)](https://github.com/rendiriz)
 
