@@ -7,7 +7,7 @@ export const project = [
   {
     id: 'next-search-engine',
     title: 'PostgreSQL vs Meilisearch',
-    url: 'http://next-search-engine.vercel.app/',
+    url: 'https://next-search-engine.vercel.app/',
   },
   {
     id: 'rendiriz-dictionary',
