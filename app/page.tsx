@@ -1,91 +1,61 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import { site } from '@/libs/site';
 
-const inter = Inter({ subsets: ['latin'] })
+export const metadata: Metadata = {
+  description: site.description,
+};
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="w-full mx-auto max-w-3xl pt-6 pb-8 px-4">
+      <h1 className="group inline-flex items-center font-serif text-4xl mb-4 md:mb-6">
+        Rendi Riz
+        <a
+          className="hidden ml-3 group-hover:block"
+          href="https://resume.showwcase.com/rendiriz.pdf"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 512 512"
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            <path
+              d="M200.66 352H144a96 96 0 010-192h55.41M312.59 160H368a96 96 0 010 192h-56.66M169.07 256h175.86"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="48"
+            ></path>
+          </svg>
+        </a>
+      </h1>
+      <div className="flex flex-col-reverse md:flex-row gap-4 md:gap-8">
+        <div className="flex-shrink-0">
+          <Image
+            className="rounded-full"
+            src="/rendiriz.png"
+            width={100}
+            height={100}
+            alt="Rendi Riz"
+          />
+        </div>
+        <div>
+          <p className="mb-2">
+            Hey, I&apos;m Rendi. I&apos;m Front-end Engineer with interest in
+            modern web development. Currently working at Jabar Digital Service
+            in Bandung, Indonesia.
+          </p>
+          <p className="mb-2">
+            If you have any exciting projects to talk about, or just want to be
+            friends, feel free to hit me up.
+          </p>
         </div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    </div>
+  );
 }
