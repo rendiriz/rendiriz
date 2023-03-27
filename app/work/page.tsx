@@ -2,8 +2,8 @@ import { etw } from 'easy-tailwind';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Project & Work',
-  description: 'Project & Work Description',
+  title: 'Work',
+  description: 'Work Description',
 };
 
 async function getProject() {
