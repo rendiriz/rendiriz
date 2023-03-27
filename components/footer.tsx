@@ -5,7 +5,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="w-full mx-auto max-w-3xl p-4">
+    <footer className="w-full mx-auto max-w-3xl p-4 pb-10">
       <div className="text-sm text-neutral-500 space-y-2 md:space-y-1">
         <div
           className={etw('flex flex-col-reverse justify-between', 'gap-1', {
