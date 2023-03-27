@@ -6,7 +6,7 @@ export default function Footer() {
 
   return (
     <footer className="w-full mx-auto max-w-3xl p-4">
-      <div className="text-sm text-neutral-500 space-y-1">
+      <div className="text-sm text-neutral-500 space-y-2 md:space-y-1">
         <div
           className={etw('flex flex-col-reverse justify-between', 'gap-1', {
             md: 'flex-row items-center',
@@ -29,7 +29,7 @@ export default function Footer() {
         <div
           className={etw(
             'flex flex-col-reverse justify-between',
-            'font-mono text-xs gap-1',
+            'font-mono text-xs gap-2',
             {
               md: 'flex-row items-center',
             },
