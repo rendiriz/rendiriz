@@ -1,27 +1,15 @@
 import { etw } from 'easy-tailwind';
 import type { Metadata } from 'next';
+import { site } from '@/libs/site';
+import { project } from '@/data/project';
+import { portfolio } from '@/data/portfolio';
 
 export const metadata: Metadata = {
   title: 'Work',
-  description: 'Work Description',
+  description: `Work ${site.title}`,
 };
 
-async function getProject() {
-  const res = await fetch(`${process.env.PUBLIC_SITE_URL}api/project`);
-  return res.json();
-}
-
-async function getPortfolio() {
-  const res = await fetch(`${process.env.PUBLIC_SITE_URL}api/portfolio`);
-  return res.json();
-}
-
 export default async function WorkPage() {
-  const projectData = getProject();
-  const portfolioData = getPortfolio();
-
-  const [project, portfolio] = await Promise.all([projectData, portfolioData]);
-
   return (
     <div className="w-full mx-auto max-w-3xl pt-6 pb-8 px-4">
       <h1 className="font-serif text-4xl mb-4 md:mb-6">Work</h1>
@@ -32,7 +20,7 @@ export default async function WorkPage() {
             Project
           </div>
           <div className="grid grid-cols-1 gap-2">
-            {project.data.map((project: any) => (
+            {project.map((project: any) => (
               <a
                 key={project.id}
                 href={project.url}
@@ -52,7 +40,7 @@ export default async function WorkPage() {
             Portfolio
           </div>
           <div className="grid grid-cols-1 gap-2">
-            {portfolio.data.map((work: any) => (
+            {portfolio.map((work: any) => (
               <a
                 key={work.id}
                 href={work.url}
