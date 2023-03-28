@@ -1,0 +1,16 @@
+---
+type: Note
+title: Find First Duplicate Value in Large Array
+date: 2022-09-08
+---
+
+```javascript
+function findDuplicate(arr) {
+  const a = new Set();
+  for (const n of arr) {
+    if (a.has(n)) return n;
+    else a.add(n);
+  }
+  return -1;
+}
+```

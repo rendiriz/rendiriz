@@ -1,0 +1,14 @@
+---
+type: Note
+title: Set Dynamically Validator in Angular
+date: 2022-08-01
+---
+
+```typescript
+dynamicValidation(): void {
+  let control = null;
+  control = this.myForm.get('controlName');
+  control.setValidators([Validators.required]);
+  control.updateValueAndValidity(); // this
+}
+```
