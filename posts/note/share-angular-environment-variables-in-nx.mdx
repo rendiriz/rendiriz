@@ -1,0 +1,28 @@
+---
+type: Note
+title: Share Angular Environment Variables in Nx
+date: 2022-07-20
+---
+
+```typescript
+// app.module.ts
+import { environment } from '../environments/environment';
+
+@NgModule({
+  providers: [
+    {
+      provider: 'ENVIRONMENT',
+      useValue: environment,
+    },
+  ],
+})
+class AppModule {}
+```
+
+```typescript
+// libs/../my-component.component.ts
+@Component({...})
+class MyComponent {
+  constructor(@Inject('ENVIRONMENT') environment: object) {}
+}
+```

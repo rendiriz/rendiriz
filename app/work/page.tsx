@@ -1,5 +1,5 @@
-import { etw } from 'easy-tailwind';
 import type { Metadata } from 'next';
+import { etw } from 'easy-tailwind';
 import { site } from '@/libs/site';
 import { project } from '@/data/project';
 import { portfolio } from '@/data/portfolio';
