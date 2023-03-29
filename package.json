@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@builder.io/partytown": "^0.7.6",
+    "@lyrasearch/lyra": "^0.4.12",
     "@radix-ui/react-collapsible": "^1.0.2",
     "@radix-ui/react-dialog": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.5",

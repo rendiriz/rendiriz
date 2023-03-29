@@ -1,6 +1,7 @@
 import './globals.css';
-import cn from 'classnames';
+import Script from 'next/script';
 import { Inter, Marcellus, Roboto_Mono } from 'next/font/google';
+import cn from 'classnames';
 import { site } from '@/libs/site';
 import Provider from '@/components/provider';
 import Navbar from '@/components/navbar';
@@ -53,6 +54,38 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </Provider>
+
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.PUBLIC_GA_TRACKING_ID}`}
+          strategy="worker"
+        />
+        <Script
+          id="partytown-config"
+          data-partytown-config
+          dangerouslySetInnerHTML={{
+            __html: `
+              partytown = {
+                lib: "/_next/static/~partytown/",
+                forward: ["gtag"]
+              };
+            `,
+          }}
+        />
+        <Script
+          id="partytown-analytics"
+          type="text/partytown"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              window.gtag = function gtag(){window.dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', '${process.env.PUBLIC_GA_TRACKING_ID}', { 
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
       </body>
     </html>
   );

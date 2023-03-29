@@ -2,6 +2,7 @@ import { removeSlug } from '@/libs/removeSlug';
 import { format, parseISO } from 'date-fns';
 import { allNotes, Note } from 'contentlayer/generated';
 import { getMDXComponent } from 'next-contentlayer/hooks';
+import NotFound from '@/components/not-found';
 
 interface params {
   params: { slug: string };
@@ -16,6 +17,11 @@ export const generateMetadata = ({ params }: params) => {
   const post = allNotes.find(
     (post) => removeSlug(post._raw.flattenedPath) === params.slug,
   ) as Note;
+
+  if (post === undefined) {
+    return { title: '404' };
+  }
+
   return { title: post.title };
 };
 
@@ -23,6 +29,10 @@ export default function NoteDetailPage({ params }: params) {
   const post = allNotes.find(
     (post) => removeSlug(post._raw.flattenedPath) === params.slug,
   ) as Note;
+
+  if (post === undefined) {
+    return <NotFound />;
+  }
 
   const Content = getMDXComponent(post.body.code);
 
