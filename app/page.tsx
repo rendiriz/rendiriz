@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div className="w-full mx-auto max-w-3xl pt-6 pb-8 px-4">
-      <h1 className="group inline-flex items-center font-serif text-4xl mb-4 md:mb-6">
+      <h1 className="inline-flex items-center font-serif text-4xl mb-4 md:mb-6">
         Rendi Riz
         <a
-          className="hidden ml-3 group-hover:block"
+          className="ml-4"
           href="https://resume.showwcase.com/rendiriz.pdf"
           target="_blank"
           rel="noreferrer"
