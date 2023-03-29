@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { etw } from 'easy-tailwind';
 import { insertBatch, search } from '@lyrasearch/lyra';
+import Mark from 'mark.js';
 import {
   instanceBlog,
   instanceNote,
@@ -17,9 +18,11 @@ const { documents: documentsBlog } = makeDataBlog();
 const { documents: documentsNote } = makeDataNote();
 
 export default function Searchbar() {
+  const contentAreaRef = useRef<any>(null);
   const [searchTerm, setSearch] = useState('');
   const [filteredBlog, setFilteredBlog] = useState<any>([]);
   const [filteredNote, setFilteredNote] = useState<any>([]);
+  const markRef = useRef<any>(null);
   const lyraBlogRef = useRef(instanceBlog());
   const lyraNoteRef = useRef(instanceNote());
 
@@ -41,6 +44,17 @@ export default function Searchbar() {
   }, []);
 
   useEffect(() => {
+    markRef.current = new Mark(contentAreaRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (!searchTerm.trim().length) {
+      setFilteredBlog([]);
+      setFilteredNote([]);
+      markRef.current.unmark();
+      return;
+    }
+
     async function searchData(db: any, options: any) {
       return await search(await db, options);
     }
@@ -68,6 +82,13 @@ export default function Searchbar() {
     results.then((data) => {
       setFilteredBlog(data[0]); //blog
       setFilteredNote(data[1]); //note
+    });
+
+    markRef.current = new Mark(contentAreaRef.current);
+    markRef.current.unmark({
+      done: () => {
+        markRef.current.mark(searchTerm);
+      },
     });
   }, [searchTerm, blogDB, noteDB]);
 
@@ -148,7 +169,11 @@ export default function Searchbar() {
               />
             </div>
           </header>
-          <div className="space-y-4 p-4">
+          <div
+            ref={contentAreaRef}
+            id="search-result"
+            className="space-y-4 p-4"
+          >
             {filteredBlog && filteredBlog.count > 0 ? (
               <section>
                 <div className="font-medium text-sm text-neutral-500 mb-2">
@@ -160,7 +185,6 @@ export default function Searchbar() {
                 ))}
               </section>
             ) : null}
-
             {filteredNote && filteredNote.count > 0 ? (
               <section>
                 <div className="font-medium text-sm text-neutral-500 mb-2">
