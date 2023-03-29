@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import * as Dialog from '@radix-ui/react-dialog';
 import { etw } from 'easy-tailwind';
 import { insertBatch, search } from '@lyrasearch/lyra';
@@ -11,13 +12,12 @@ import {
   makeDataBlog,
   makeDataNote,
 } from '@/libs/lyra';
-import BlogCard from '@/components/blog-card';
-import NoteCard from '@/components/note-card';
 
 const { documents: documentsBlog } = makeDataBlog();
 const { documents: documentsNote } = makeDataNote();
 
 export default function Searchbar() {
+  const [open, setOpen] = useState(false);
   const contentAreaRef = useRef<any>(null);
   const [searchTerm, setSearch] = useState('');
   const [filteredBlog, setFilteredBlog] = useState<any>([]);
@@ -93,7 +93,7 @@ export default function Searchbar() {
   }, [searchTerm, blogDB, noteDB]);
 
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         <button
           type="button"
@@ -132,7 +132,7 @@ export default function Searchbar() {
         />
         <Dialog.Content
           className={etw(
-            'fixed top-[10%] left-1/2 bg-white dark:bg-[#111010]',
+            'fixed z-[1] top-[10%] left-1/2 bg-white dark:bg-[#111010]',
             'w-[90vw] max-w-lg max-h-[85vh]',
             'rounded-lg shadow',
             '-translate-x-1/2',
@@ -181,7 +181,16 @@ export default function Searchbar() {
                 </div>
 
                 {filteredBlog.hits.map((post: any, idx: number) => (
-                  <BlogCard key={idx} {...post.document} />
+                  <Link
+                    key={idx}
+                    href={post.document.url}
+                    className={etw('block font-medium rounded-md py-3 px-4', {
+                      hover: 'bg-neutral-50 dark:bg-neutral-900',
+                    })}
+                    onClick={() => setOpen(false)}
+                  >
+                    {post.document.title}
+                  </Link>
                 ))}
               </section>
             ) : null}
@@ -192,7 +201,16 @@ export default function Searchbar() {
                 </div>
 
                 {filteredNote.hits.map((post: any, idx: number) => (
-                  <NoteCard key={idx} {...post.document} />
+                  <Link
+                    key={idx}
+                    href={post.document.url}
+                    className={etw('block font-medium rounded-md py-3 px-4', {
+                      hover: 'bg-neutral-50 dark:bg-neutral-900',
+                    })}
+                    onClick={() => setOpen(false)}
+                  >
+                    {post.document.title}
+                  </Link>
                 ))}
               </section>
             ) : null}
