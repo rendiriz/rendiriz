@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import * as Dialog from '@radix-ui/react-dialog';
 import { etw } from 'easy-tailwind';
@@ -9,12 +9,15 @@ import Mark from 'mark.js';
 import {
   instanceBlog,
   instanceNote,
+  instanceBookmark,
   makeDataBlog,
   makeDataNote,
+  makeDataBookmark,
 } from '@/libs/lyra';
 
 const { documents: documentsBlog } = makeDataBlog();
 const { documents: documentsNote } = makeDataNote();
+const { documents: documentsBookmark } = makeDataBookmark();
 
 export default function Searchbar() {
   const [open, setOpen] = useState(false);
@@ -22,12 +25,15 @@ export default function Searchbar() {
   const [searchTerm, setSearch] = useState('');
   const [filteredBlog, setFilteredBlog] = useState<any>([]);
   const [filteredNote, setFilteredNote] = useState<any>([]);
+  const [filteredBookmark, setFilteredBookmark] = useState<any>([]);
   const markRef = useRef<any>(null);
   const lyraBlogRef = useRef(instanceBlog());
   const lyraNoteRef = useRef(instanceNote());
+  const lyraBookmarkRef = useRef(instanceBookmark());
 
   const blogDB = lyraBlogRef.current;
   const noteDB = lyraNoteRef.current;
+  const bookmarkDB = lyraBookmarkRef.current;
 
   useEffect(() => {
     async function insertData(instance: any, documents: any) {
@@ -36,10 +42,12 @@ export default function Searchbar() {
 
     insertData(lyraBlogRef.current, documentsBlog);
     insertData(lyraNoteRef.current, documentsNote);
+    insertData(lyraBookmarkRef.current, documentsBookmark);
 
     return () => {
       lyraBlogRef.current = instanceBlog();
       lyraNoteRef.current = instanceNote();
+      lyraBookmarkRef.current = instanceBookmark();
     };
   }, []);
 
@@ -51,6 +59,7 @@ export default function Searchbar() {
     if (!searchTerm.trim().length) {
       setFilteredBlog([]);
       setFilteredNote([]);
+      setFilteredBookmark([]);
       markRef.current.unmark();
       return;
     }
@@ -77,11 +86,19 @@ export default function Searchbar() {
       limit: 5,
     });
 
-    const results = resultData([searchBlog, searchNote]);
+    const searchBookmark = searchData(bookmarkDB, {
+      term: searchTerm,
+      properties: ['title'],
+      tolerance: 3,
+      limit: 5,
+    });
+
+    const results = resultData([searchBlog, searchNote, searchBookmark]);
 
     results.then((data) => {
       setFilteredBlog(data[0]); //blog
       setFilteredNote(data[1]); //note
+      setFilteredBookmark(data[2]); //bookmark
     });
 
     markRef.current = new Mark(contentAreaRef.current);
@@ -90,7 +107,7 @@ export default function Searchbar() {
         markRef.current.mark(searchTerm);
       },
     });
-  }, [searchTerm, blogDB, noteDB]);
+  }, [searchTerm, blogDB, noteDB, bookmarkDB]);
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -133,7 +150,7 @@ export default function Searchbar() {
         <Dialog.Content
           className={etw(
             'fixed z-[1] top-[10%] left-1/2 bg-white dark:bg-[#111010]',
-            'w-[90vw] max-w-lg max-h-[85vh]',
+            'w-[90vw] max-w-xl max-h-[85vh]',
             'rounded-lg shadow',
             '-translate-x-1/2',
             'animate-[contentShow_150ms_cubic-bezier(0.16,_1,_0.3,_1)]',
@@ -174,50 +191,139 @@ export default function Searchbar() {
             id="search-result"
             className="space-y-4 p-4"
           >
-            {filteredBlog && filteredBlog.count > 0 ? (
-              <section>
-                <div className="font-medium text-sm text-neutral-500 mb-2">
-                  Blog
-                </div>
+            <Fragment>
+              {filteredBlog && filteredBlog.count > 0 ? (
+                <section>
+                  <div className="font-medium text-sm text-neutral-500 mb-2">
+                    Blog
+                  </div>
 
-                {filteredBlog.hits.map((post: any, idx: number) => (
-                  <Link
-                    key={idx}
-                    href={post.document.url}
-                    className={etw('block font-medium rounded-md py-3 px-4', {
-                      hover: 'bg-neutral-50 dark:bg-neutral-900',
-                    })}
-                    onClick={() => setOpen(false)}
-                  >
-                    {post.document.title}
-                  </Link>
-                ))}
-              </section>
-            ) : null}
-            {filteredNote && filteredNote.count > 0 ? (
-              <section>
-                <div className="font-medium text-sm text-neutral-500 mb-2">
-                  Note
-                </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    {filteredBlog.hits.map((post: any, idx: number) => (
+                      <Link
+                        key={idx}
+                        href={post.document.url}
+                        className={etw(
+                          'block font-medium',
+                          'bg-neutral-50 dark:bg-neutral-900',
+                          'rounded-md py-3 px-4',
+                          {
+                            hover: 'bg-neutral-100 dark:bg-neutral-800',
+                          },
+                        )}
+                        onClick={() => setOpen(false)}
+                      >
+                        {post.document.title}
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
+            </Fragment>
 
-                {filteredNote.hits.map((post: any, idx: number) => (
-                  <Link
-                    key={idx}
-                    href={post.document.url}
-                    className={etw('block font-medium rounded-md py-3 px-4', {
-                      hover: 'bg-neutral-50 dark:bg-neutral-900',
-                    })}
-                    onClick={() => setOpen(false)}
-                  >
-                    {post.document.title}
-                  </Link>
-                ))}
-              </section>
-            ) : null}
+            <Fragment>
+              {filteredNote && filteredNote.count > 0 ? (
+                <section>
+                  <div className="font-medium text-sm text-neutral-500 mb-2">
+                    Note
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3">
+                    {filteredNote.hits.map((post: any, idx: number) => (
+                      <Link
+                        key={idx}
+                        href={post.document.url}
+                        className={etw(
+                          'block font-medium',
+                          'bg-neutral-50 dark:bg-neutral-900',
+                          'rounded-md py-3 px-4',
+                          {
+                            hover: 'bg-neutral-100 dark:bg-neutral-800',
+                          },
+                        )}
+                        onClick={() => setOpen(false)}
+                      >
+                        {post.document.title}
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
+            </Fragment>
+
+            <Fragment>
+              {filteredBookmark && filteredBookmark.count > 0 ? (
+                <section>
+                  <div className="font-medium text-sm text-neutral-500 mb-2">
+                    Bookmark
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3">
+                    {filteredBookmark.hits.map((post: any, idx: number) => (
+                      <Fragment key={idx}>
+                        {(() => {
+                          switch (post.document.kind) {
+                            case 'website':
+                              return (
+                                <a
+                                  href={post.document.link}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className={etw(
+                                    'block font-medium',
+                                    'bg-neutral-50 dark:bg-neutral-900',
+                                    'rounded-md py-3 px-4',
+                                    {
+                                      hover:
+                                        'bg-neutral-100 dark:bg-neutral-800',
+                                    },
+                                  )}
+                                  onClick={() => setOpen(false)}
+                                >
+                                  {post.document.title}
+                                </a>
+                              );
+                            default:
+                              return (
+                                <Link
+                                  href={post.document.url}
+                                  className={etw(
+                                    'block font-medium',
+                                    'bg-neutral-50 dark:bg-neutral-900',
+                                    'rounded-md py-3 px-4',
+                                    {
+                                      hover:
+                                        'bg-neutral-100 dark:bg-neutral-800',
+                                    },
+                                  )}
+                                  onClick={() => setOpen(false)}
+                                >
+                                  {post.document.title}
+                                </Link>
+                              );
+                          }
+                        })()}
+                      </Fragment>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
+            </Fragment>
           </div>
-          <footer className="flex justify-end border-t dark:border-neutral-800 py-3 px-2.5 text-xs">
+          <footer
+            className={etw(
+              'flex justify-end',
+              'text-xs border-t dark:border-neutral-800',
+              'py-3 px-2.5',
+            )}
+          >
             {`Search by `}
-            <span className="ml-1 bg-clip-text bg-gradient-to-r from-[#08B5FF] to-[#F101E8]">
+            <span
+              className={etw(
+                'bg-clip-text bg-gradient-to-r from-[#08B5FF] to-[#F101E8]',
+                'ml-1',
+              )}
+            >
               Lyra
             </span>
           </footer>

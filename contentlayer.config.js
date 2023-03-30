@@ -53,9 +53,53 @@ const Note = defineDocumentType(() => ({
   },
 }));
 
+const Bookmark = defineDocumentType(() => ({
+  name: 'Bookmark',
+  filePathPattern: `posts/bookmark/**/*.mdx`,
+  contentType: 'mdx',
+  fields: {
+    category: {
+      type: 'string',
+      description: 'The category of the post',
+      required: true,
+    },
+    subCategory: {
+      type: 'string',
+      description: 'The sub category of the post',
+      required: true,
+    },
+    kind: {
+      type: 'string',
+      description: 'The type of the post',
+      required: true,
+    },
+    title: {
+      type: 'string',
+      description: 'The title of the post',
+      required: true,
+    },
+    link: {
+      type: 'string',
+      description: 'The link of the post',
+      required: false,
+    },
+    date: {
+      type: 'date',
+      description: 'The date of the post',
+      required: true,
+    },
+  },
+  computedFields: {
+    url: {
+      type: 'string',
+      resolve: (doc) => `/${doc._raw.flattenedPath}`,
+    },
+  },
+}));
+
 export default makeSource({
   contentDirPath: 'posts',
-  documentTypes: [Blog, Note],
+  documentTypes: [Blog, Note, Bookmark],
   mdx: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [

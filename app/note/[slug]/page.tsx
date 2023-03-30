@@ -2,6 +2,7 @@ import { removeSlug } from '@/libs/removeSlug';
 import { format, parseISO } from 'date-fns';
 import { allNotes, Note } from 'contentlayer/generated';
 import { getMDXComponent } from 'next-contentlayer/hooks';
+import PostImage from '@/components/post-image';
 import NotFound from '@/components/not-found';
 
 interface params {
@@ -47,7 +48,7 @@ export default function NoteDetailPage({ params }: params) {
       </div>
 
       <div className="prose dark:prose-invert max-w-none">
-        <Content />
+        <Content components={{ Image: PostImage }} />
       </div>
     </article>
   );

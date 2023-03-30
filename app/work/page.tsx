@@ -19,15 +19,20 @@ export default async function WorkPage() {
           <div className="font-medium text-sm text-neutral-500 mb-3">
             Project
           </div>
-          <div className="grid grid-cols-1 gap-2">
+          <div className="grid grid-cols-1 gap-3">
             {project.map((project: any) => (
               <a
                 key={project.id}
                 href={project.url}
                 target="_blank"
-                className={etw('block font-medium rounded-md py-3 px-4', {
-                  hover: 'bg-neutral-50 dark:bg-neutral-900',
-                })}
+                className={etw(
+                  'block font-medium',
+                  'bg-neutral-50 dark:bg-neutral-900',
+                  'rounded-md py-3 px-4',
+                  {
+                    hover: 'bg-neutral-100 dark:bg-neutral-800',
+                  },
+                )}
               >
                 {project.title}
               </a>
@@ -39,15 +44,20 @@ export default async function WorkPage() {
           <div className="font-medium text-sm text-neutral-500 mb-3">
             Portfolio
           </div>
-          <div className="grid grid-cols-1 gap-2">
+          <div className="grid grid-cols-1 gap-3">
             {portfolio.map((work: any) => (
               <a
                 key={work.id}
                 href={work.url}
                 target="_blank"
-                className={etw('block font-medium rounded-md py-3 px-4', {
-                  hover: 'bg-neutral-50 dark:bg-neutral-900',
-                })}
+                className={etw(
+                  'block font-medium',
+                  'bg-neutral-50 dark:bg-neutral-900',
+                  'rounded-md py-3 px-4',
+                  {
+                    hover: 'bg-neutral-100 dark:bg-neutral-800',
+                  },
+                )}
               >
                 {work.title}
               </a>
