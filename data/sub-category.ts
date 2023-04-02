@@ -20,6 +20,11 @@ export const subCategory = [
     name: 'UI/UX',
   },
   {
+    id: 'algorithm',
+    categoryId: 'programing',
+    name: 'Algorithm',
+  },
+  {
     id: 'javascript',
     categoryId: 'programing',
     name: 'Javascript',
