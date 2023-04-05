@@ -1,5 +1,10 @@
 export const project = [
   {
+    id: 'angular-signals',
+    title: 'Angular Signals',
+    url: 'https://angular-signals-rendiriz.vercel.app/',
+  },
+  {
     id: 'next-trpc',
     title: 'Next.js tRPC Typesafe APIs',
     url: 'https://next-trpc-rendiriz.vercel.app/',
