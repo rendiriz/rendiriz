@@ -15,6 +15,11 @@ export const subCategory = [
     name: 'Tools',
   },
   {
+    id: 'workspace',
+    categoryId: 'design',
+    name: 'Workspace',
+  },
+  {
     id: 'ui-ux',
     categoryId: 'design',
     name: 'UI/UX',
