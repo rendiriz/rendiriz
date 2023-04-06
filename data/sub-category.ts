@@ -5,6 +5,11 @@ export const subCategory = [
     name: 'General',
   },
   {
+    id: 'place',
+    categoryId: 'food',
+    name: 'Place',
+  },
+  {
     id: 'font',
     categoryId: 'design',
     name: 'Font',
