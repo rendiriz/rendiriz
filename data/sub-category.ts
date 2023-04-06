@@ -50,6 +50,11 @@ export const subCategory = [
     name: 'Tools',
   },
   {
+    id: 'information',
+    categoryId: 'traveling',
+    name: 'Information',
+  },
+  {
     id: 'chart',
     categoryId: 'visualization',
     name: 'Chart',

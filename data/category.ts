@@ -12,6 +12,10 @@ export const category = [
     name: 'Programing',
   },
   {
+    id: 'traveling',
+    name: 'Traveling',
+  },
+  {
     id: 'visualization',
     name: 'Visualization',
   },
