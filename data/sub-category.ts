@@ -40,6 +40,16 @@ export const subCategory = [
     name: 'Javascript',
   },
   {
+    id: 'model',
+    categoryId: 'programing',
+    name: 'Model',
+  },
+  {
+    id: 'tailwind',
+    categoryId: 'programing',
+    name: 'Tailwind',
+  },
+  {
     id: 'typescript',
     categoryId: 'programing',
     name: 'Typescript',
