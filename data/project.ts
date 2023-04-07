@@ -7,7 +7,7 @@ export const project = [
   {
     id: 'next-trpc',
     title: 'Next.js tRPC Typesafe APIs',
-    url: 'https://next-trpc-rendiriz.vercel.app/',
+    url: 'https://next-trpc-rr.vercel.app/',
   },
   {
     id: 'next-search-engine',
