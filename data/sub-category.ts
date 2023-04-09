@@ -30,6 +30,11 @@ export const subCategory = [
     name: 'UI/UX',
   },
   {
+    id: 'ai',
+    categoryId: 'programing',
+    name: 'AI',
+  },
+  {
     id: 'algorithm',
     categoryId: 'programing',
     name: 'Algorithm',
