@@ -1,17 +1,37 @@
 import './globals.css';
 import Script from 'next/script';
-import { Inter, Marcellus, Roboto_Mono } from 'next/font/google';
+import { Marcellus, Roboto_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import cn from 'classnames';
 import { site } from '@/libs/site';
 import Provider from '@/components/provider';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 
-const inter = Inter({
-  weight: ['400', '500', '700'],
-  style: ['normal'],
-  subsets: ['latin'],
-  variable: '--font-inter',
+const atkinson = localFont({
+  src: [
+    {
+      path: '../font/Atkinson-Hyperlegible-Regular-102a.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../font/Atkinson-Hyperlegible-Italic-102a.woff2',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: '../font/Atkinson-Hyperlegible-Bold-102a.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../font/Atkinson-Hyperlegible-BoldItalic-102a.woff2',
+      weight: '700',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-atkinson',
 });
 
 const marcellus = Marcellus({
@@ -46,7 +66,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn([inter.variable, marcellus.variable, robotoMono.variable])}
+      className={cn([
+        atkinson.variable,
+        marcellus.variable,
+        robotoMono.variable,
+      ])}
     >
       <body>
         <Provider>

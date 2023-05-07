@@ -18,7 +18,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
+        sans: ['var(--font-atkinson)', ...defaultTheme.fontFamily.sans],
         serif: ['var(--font-marcellus)', ...defaultTheme.fontFamily.serif],
         mono: ['var(--font-roboto-mono)', ...defaultTheme.fontFamily.mono],
       },
