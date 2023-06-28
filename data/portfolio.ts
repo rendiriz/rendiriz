@@ -2,7 +2,7 @@ export const portfolio = [
   {
     id: '17',
     title: 'JDS Angular Design System',
-    url: 'https://www.npmjs.com/package/@jds-bi/core',
+    url: 'https://design-angular.ekosistemdatajabar.id/',
   },
   {
     id: '16',
