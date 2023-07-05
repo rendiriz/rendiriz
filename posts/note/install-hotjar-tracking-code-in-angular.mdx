@@ -5,13 +5,31 @@ date: 2023-07-05
 ---
 
 ```typescript
-// app-component.component.ts
+// app.component.ts
+import Hotjar from '@hotjar/browser';
+import { environment } from '../environments/environment';
+
+@Component({...})
+class AppComponent {
+  constructor() {
+    Hotjar.init(
+      Number(environment.hotjarTrackingCode),
+      Number(environment.hotjarVersion)
+    );
+  }
+}
+```
+
+or
+
+```typescript
+// app.component.ts
 import { AfterContentInit, ... } from '@angular/core';
 import { environment } from '../environments/environment';
 
 @Component({...})
 class AppComponent implements AfterContentInit {
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  constructor() {}
 
   ngAfterContentInit(): void {
     ((h, o, t, j, a, r) => {
