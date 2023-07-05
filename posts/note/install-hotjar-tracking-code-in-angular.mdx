@@ -1,0 +1,41 @@
+---
+type: Note
+title: Install Hotjar Tracking Code in Angular
+date: 2023-07-05
+---
+
+```typescript
+// app-component.component.ts
+import { AfterContentInit, ... } from '@angular/core';
+import { environment } from '../environments/environment';
+
+@Component({...})
+class AppComponent implements AfterContentInit {
+  constructor(@Inject(DOCUMENT) private document: Document) {}
+
+  ngAfterContentInit(): void {
+    ((h, o, t, j, a, r) => {
+      h.hj =
+        h.hj ||
+        // eslint-disable-next-line func-names
+        function () {
+          // eslint-disable-next-line prefer-rest-params
+          (h.hj.q = h.hj.q || []).push(arguments);
+        };
+      h._hjSettings = { hjid: environment.hotjarTrackingCode, hjsv: environment.hotjarVersion };
+      // eslint-disable-next-line prefer-destructuring, no-param-reassign
+      a = o.getElementsByTagName('head')[0];
+      // eslint-disable-next-line no-param-reassign
+      r = o.createElement('script');
+      r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(
+      window as any,
+      this.document,
+      'https://static.hotjar.com/c/hotjar-',
+      '.js?sv=',
+    );
+  }
+}
+```
