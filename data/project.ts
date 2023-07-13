@@ -1,5 +1,10 @@
 export const project = [
   {
+    id: 'rendiriz-animation',
+    title: 'Animation',
+    url: 'https://animation.rendiriz.com/',
+  },
+  {
     id: 'angular-signals',
     title: 'Angular Signals',
     url: 'https://angular-signals-rendiriz.vercel.app/',
