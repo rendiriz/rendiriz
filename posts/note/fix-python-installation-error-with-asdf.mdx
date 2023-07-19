@@ -1,0 +1,22 @@
+---
+type: Note
+title: Fix Python Installation Error with asdf
+date: 2023-07-19
+---
+
+```bash
+Installing Python-3.7.17...
+patching file Misc/NEWS.d/next/macOS/2020-06-24-13-51-57.bpo-41100.mcHdc5.rst
+patching file configure
+Hunk #1 FAILED at 3426.
+1 out of 1 hunk FAILED -- saving rejects to file configure.rej
+patching file configure.ac
+Hunk #1 FAILED at 510.
+1 out of 1 hunk FAILED -- saving rejects to file configure.ac.rej
+
+BUILD FAILED (Ubuntu 20.04 using python-build 2.3.22-6-gb81204c0)
+```
+
+```bash
+ASDF_PYTHON_PATCH_URL="" asdf install python 3.7.17
+```
