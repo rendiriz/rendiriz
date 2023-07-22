@@ -1,7 +1,12 @@
 export const project = [
   {
+    id: 'rendiriz-currency',
+    title: 'Hono + htmx Currency Rates',
+    url: 'https://currency.rendiriz.com/',
+  },
+  {
     id: 'rendiriz-animation',
-    title: 'Animation',
+    title: 'Framer Motion Animation',
     url: 'https://animation.rendiriz.com/',
   },
   {
@@ -23,11 +28,6 @@ export const project = [
     id: 'rendiriz-dictionary',
     title: 'Next.js Dictionary',
     url: 'https://dictionary.rendiriz.com/',
-  },
-  {
-    id: 'rendiriz-currency',
-    title: 'Fresh.js Currency Rates',
-    url: 'https://rendiriz-currency.deno.dev/',
   },
   {
     id: 'next-gen-image',
