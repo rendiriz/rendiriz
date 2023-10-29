@@ -1,0 +1,21 @@
+---
+type: Note
+title: Pull an Image from a Harbor Private Registry in Kubernetes
+date: 2023-10-29
+---
+
+```bash
+kubectl create secret docker-registry harbor-credentials \
+  --docker-server=<harbor-host> \
+  --docker-username=<harbor-username> \
+  --docker-password=<harbor-password> \
+  --namespace=<namespace>
+```
+
+```yaml
+[...]
+spec:
+  [...]
+  imagePullSecrets:
+  - name: harbor-credentials
+```
