@@ -1,5 +1,10 @@
 export const project = [
   {
+    id: 'rendiriz-slugify',
+    title: 'Solid Start Slugify',
+    url: 'https://slugify.rendiriz.com/',
+  },
+  {
     id: 'rendiriz-currency',
     title: 'Hono + htmx Currency Rates',
     url: 'https://currency.rendiriz.com/',
