@@ -40,7 +40,7 @@ export default function RootLayout({
           <Footer />
         </Provider>
 
-        <Partytown debug={true} forward={['dataLayer.push']} />
+        <Partytown debug={false} forward={['dataLayer.push']} />
         <script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.PUBLIC_GA_TRACKING_ID}`}
           type="text/partytown"
@@ -57,38 +57,6 @@ export default function RootLayout({
             `,
           }}
         />
-
-        {/* <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.PUBLIC_GA_TRACKING_ID}`}
-          strategy="worker"
-        />
-        <Script
-          id="partytown-config"
-          data-partytown-config
-          dangerouslySetInnerHTML={{
-            __html: `
-              partytown = {
-                lib: "/_next/static/~partytown/",
-                forward: ["gtag"]
-              };
-            `,
-          }}
-        />
-        <Script
-          id="partytown-analytics"
-          type="text/partytown"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              window.gtag = function gtag(){window.dataLayer.push(arguments);}
-              gtag('js', new Date());
-
-              gtag('config', '${process.env.PUBLIC_GA_TRACKING_ID}', { 
-                page_path: window.location.pathname,
-              });
-            `,
-          }}
-        /> */}
       </body>
     </html>
   );
