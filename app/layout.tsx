@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-sync-scripts */
 import './globals.css';
 import Script from 'next/script';
 import cn from 'classnames';
+import { Partytown } from '@builder.io/partytown/react';
 import { site } from '@/libs/site';
 import { atkinson, marcellus, robotoMono } from '@/libs/fonts';
 import Provider from '@/components/provider';
@@ -38,7 +40,25 @@ export default function RootLayout({
           <Footer />
         </Provider>
 
-        <Script
+        <Partytown debug={true} forward={['dataLayer.push']} />
+        <script
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.PUBLIC_GA_TRACKING_ID}`}
+          type="text/partytown"
+        />
+        <script
+          type="text/partytown"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', '${process.env.PUBLIC_GA_TRACKING_ID}');
+            `,
+          }}
+        />
+
+        {/* <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.PUBLIC_GA_TRACKING_ID}`}
           strategy="worker"
         />
@@ -68,7 +88,7 @@ export default function RootLayout({
               });
             `,
           }}
-        />
+        /> */}
       </body>
     </html>
   );
