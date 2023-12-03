@@ -15,6 +15,11 @@ export const subCategory = [
     name: 'Font',
   },
   {
+    id: 'home',
+    categoryId: 'design',
+    name: 'Home',
+  },
+  {
     id: 'tools',
     categoryId: 'design',
     name: 'Tools',
@@ -78,6 +83,11 @@ export const subCategory = [
     id: 'information',
     categoryId: 'traveling',
     name: 'Information',
+  },
+  {
+    id: 'place',
+    categoryId: 'traveling',
+    name: 'Place',
   },
   {
     id: 'chart',
