@@ -11,7 +11,7 @@ wsl.exe --shutdown
 ```bash
 (Get-ChildItem -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue("DistributionName") -eq '<distribution-name>' }).GetValue("BasePath") + "\ext4.vhdx"
 ```
-replacing `<distribution-name>` with the actual distribution name.
+replace `<distribution-name>` with the actual distribution name.\
 Example: Ubuntu-20.04
 
 ```bash
@@ -21,7 +21,7 @@ diskpart
 ```bash
 Select vdisk file="<pathToVHD>"
 ```
-replacing `<pathToVHD>` with the actual path to the VHD.
+replace `<pathToVHD>` with the actual path to the VHD.\
 Example: C:\Users\User\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\ext4.vhdx
 
 ```bash
@@ -31,7 +31,7 @@ detail vdisk
 ```bash
 expand vdisk maximum=<sizeInMegaBytes>
 ```
-replacing `<sizeInMegaBytes>` with the actual size in MegaBytes.
+replace `<sizeInMegaBytes>` with the actual size in MegaBytes.\
 Example: 512000
 
 ```bash
