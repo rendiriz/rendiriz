@@ -1,6 +1,4 @@
-/* eslint-disable @next/next/no-sync-scripts */
 import './globals.css';
-import Script from 'next/script';
 import cn from 'classnames';
 import { Partytown } from '@builder.io/partytown/react';
 import { site } from '@/libs/site';
@@ -8,6 +6,10 @@ import { atkinson, marcellus, robotoMono } from '@/libs/fonts';
 import Provider from '@/components/provider';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
+
+interface Props {
+  readonly children: React.ReactNode;
+}
 
 export const metadata = {
   icons: {
@@ -19,11 +21,7 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: Props) {
   return (
     <html
       lang="en"
@@ -42,6 +40,7 @@ export default function RootLayout({
 
         <Partytown debug={false} forward={['dataLayer.push']} />
         <script
+          async
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.PUBLIC_GA_TRACKING_ID}`}
           type="text/partytown"
         />

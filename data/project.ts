@@ -1,5 +1,10 @@
 export const project = [
   {
+    id: 'rendiriz-calendar',
+    title: 'Bun Next.js Calendar',
+    url: 'https://calendar.rendiriz.com/',
+  },
+  {
     id: 'rendiriz-slugify',
     title: 'Solid Start Slugify',
     url: 'https://slugify.rendiriz.com/',
