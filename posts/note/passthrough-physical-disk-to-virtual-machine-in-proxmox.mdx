@@ -1,0 +1,37 @@
+---
+type: Note
+title: Passthrough Physical Disk to Virtual Machine in Proxmox
+date: 2024-02-15
+---
+
+```bash
+apt install lshw
+```
+
+```bash
+lshw -class disk -class storage
+```
+
+```bash
+lsblk |awk 'NR==1{print $0" DEVICE-ID(S)"}NR>1{dev=$1;printf $0" ";system("find /dev/disk/by-id -lname \"*"dev"\" -printf \" %p\"");print "";}'|grep -v -E 'part|lvm'
+```
+
+```bash
+qm set 592 -scsi2 /dev/disk/by-id/ata-ST3000DM001-1CH166_Z1F41BLC
+```
+
+replace `592` with the actual ID virtual machine.\
+replace `-scsi2` with the actual scsi.\
+replace `ata-ST3000DM001-1CH166_Z1F41BLC` with the actual disk ID.\
+
+```bash
+cp /etc/pve/qemu-server/592.conf /root/592-backup.conf
+```
+
+```bash
+nano /etc/pve/qemu-server/592.conf
+```
+
+```
+scsi2: /dev/disk/by-id/ata-ST3000DM001-1CH166_Z1F41BLC,size=2930266584K,serial=Z1F41BLC
+```
