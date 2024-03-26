@@ -1,0 +1,16 @@
+---
+type: Note
+title: Billion-Dollar Precision in Postgres
+date: 2024-03-26
+---
+
+```
+NUMERIC(precision, scale)
+```
+
+```sql
+CREATE TABLE `expenses` (
+  `id` bigint primary key auto_increment,
+  `amount` numeric(12, 2)
+);
+```
