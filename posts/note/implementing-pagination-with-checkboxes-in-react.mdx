@@ -1,0 +1,143 @@
+---
+type: Note
+title: Implementing Pagination with Checkboxes in React
+date: 2024-10-30
+---
+
+[Demo](https://stackblitz.com/edit/vitejs-vite-xp38rw)
+
+```javascript
+import React, { useEffect, useState } from 'react';
+
+const PaginatedCheckboxList = () => {
+  const [items, setItems] = useState([]);
+  const [checkedItems, setCheckedItems] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [checkAll, setCheckAll] = useState(false);
+  const [hasSelectedItems, setHasSelectedItems] = useState(false);
+  const limit = 10; // Set limit for items per page
+
+  // Fetch items for the current page
+  const fetchItems = async (page) => {
+    const offset = (page - 1) * limit;
+    const response = await fetch(
+      `https://dummyjson.com/products?limit=${limit}&skip=${offset}`,
+    );
+    const data = await response.json();
+    setItems(data.products);
+
+    // Apply `checkAll` status to the items on the page if `checkAll` is true
+    if (checkAll) {
+      setCheckedItems((prev) => ({
+        ...prev,
+        [page]: data.products.map((item) => item.id),
+      }));
+    }
+  };
+
+  useEffect(() => {
+    fetchItems(currentPage);
+  }, [currentPage, checkAll]);
+
+  // Update `hasSelectedItems` whenever `checkedItems` changes
+  useEffect(() => {
+    // Check if any items are selected across pages
+    const hasItems = Object.values(checkedItems).some(
+      (pageItems) => pageItems.length > 0,
+    );
+    setHasSelectedItems(hasItems);
+  }, [checkedItems]);
+
+  // Handle checkAll toggle
+  const handleCheckAll = () => {
+    const isChecked = !checkAll;
+    setCheckAll(isChecked);
+
+    if (isChecked) {
+      // If checking all, mark all items on the current page as checked
+      setCheckedItems((prev) => ({
+        ...prev,
+        [currentPage]: items.map((item) => item.id),
+      }));
+    } else {
+      // If unchecking all, clear checked items for all pages
+      setCheckedItems({});
+    }
+  };
+
+  // Handle individual item check
+  const handleCheckItem = (id) => {
+    setCheckedItems((prev) => {
+      const pageCheckedItems = prev[currentPage] || [];
+      const isChecked = pageCheckedItems.includes(id);
+
+      const updatedCheckedItems = isChecked
+        ? pageCheckedItems.filter((itemId) => itemId !== id)
+        : [...pageCheckedItems, id];
+
+      // If checkAll is currently true, setting an item manually should reset it to false
+      if (checkAll) setCheckAll(false);
+
+      return {
+        ...prev,
+        [currentPage]: updatedCheckedItems,
+      };
+    });
+  };
+
+  // Navigate to a different page
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Handle download action
+  const handleDownload = () => {
+    // Combine all checked item IDs into a single array
+    const selectedItems = Object.values(checkedItems).flat();
+    console.log('Downloading selected items:', selectedItems);
+
+    // Trigger download or any other processing you need here
+    // For example, you might want to send `selectedItems` to a server
+  };
+
+  return (
+    <div>
+      <h1>Paginated Checkbox List</h1>
+      <label>
+        <input type="checkbox" checked={checkAll} onChange={handleCheckAll} />
+        Check All
+      </label>
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>
+            <label>
+              <input
+                type="checkbox"
+                checked={(checkedItems[currentPage] || []).includes(item.id)}
+                onChange={() => handleCheckItem(item.id)}
+              />
+              {item.title}
+            </label>
+          </li>
+        ))}
+      </ul>
+      <div>
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <button onClick={() => handlePageChange(currentPage + 1)}>Next</button>
+      </div>
+      {hasSelectedItems && (
+        <div>
+          <button onClick={handleDownload}>Download</button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default PaginatedCheckboxList;
+```
