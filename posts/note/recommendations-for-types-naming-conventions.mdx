@@ -1,0 +1,51 @@
+---
+type: Note
+title: Recommendations for Types Naming Conventions
+date: 2025-01-12
+---
+
+### Schemas:
+
+- `LoginSchema` - When it's a general schema for login-related data
+- `LoginFormSchema` - When it's specifically for form validation (this is better for your case since it's form-specific)
+- `CreateLoginSchema` / `UpdateLoginSchema` - If you have different schemas for different operations
+
+### DTOs (Data Transfer Objects):
+
+- `LoginPayload` - More descriptive than `LoginDto`, clearly indicates it's data being sent
+- `LoginRequest` - Alternative that clearly shows it's for API requests
+- `LoginFormData` - When specifically for form data
+- Avoid generic `LoginDto` as it's less descriptive of the purpose
+
+### Responses:
+
+- `LoginResponse` - Clear and explicit, good for API responses
+- `LoginResult` - Alternative that works well
+- Avoid just `Login` as it's too generic and unclear
+- `LoginResponseData` - When you need to be very explicit
+
+```typescript
+// schemas/auth.ts
+export const LoginFormSchema = z.object({
+  email: z.string().min(1).email(),
+  password: z.string().min(1),
+});
+
+// types/auth.ts
+export type LoginPayload = z.infer<typeof LoginFormSchema>;
+
+export interface LoginResponse {
+  token: string;
+  user: {
+    id: string;
+    email: string;
+  };
+}
+
+// components/login-form.tsx
+export const LoginForm = () => {
+  const handleSubmit = async (data: LoginPayload) => {
+    // ...
+  };
+};
+```
