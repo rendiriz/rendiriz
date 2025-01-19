@@ -1,0 +1,17 @@
+---
+type: Note
+title: TypeScript Function Types with or without Parameters
+date: 2025-01-19
+---
+
+```typescript
+// Without Parameters
+type Props {
+  main: VoidFunction
+}
+
+// With Parameters
+type Props {
+  main: (value: string) => void
+}
+```
