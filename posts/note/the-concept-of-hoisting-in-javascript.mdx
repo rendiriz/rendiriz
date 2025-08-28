@@ -1,0 +1,182 @@
+---
+type: Note
+title: The concept of hoisting in JavaScript
+date: 2023-05-01 00:03
+---
+
+## What is hoisting?
+Hoisting is a behavior where JavaScript acts as if variable and function declarations are “lifted” to the top of their scope before the code runs.
+### Hoisting of variables declared using `var`
+`var` declarations are hoisted with an initial value of `undefined`; initialization remains in place.
+
+```javascript
+console.log(foo); // undefined
+var foo = 1;
+console.log(foo); // 1
+```
+
+### Hoisting of variables declared using `let`, `const`, and `class`
+`let`, `const`, and `class` declarations are hoisted but not initialized, causing a `ReferenceError` if accessed before their declaration—this is due to the Temporal Dead Zone (TDZ).
+
+```javascript
+y; // ReferenceError: Cannot access 'y' before initialization
+let y = 'local';
+
+z; // ReferenceError: Cannot access 'z' before initialization
+const z = 'local';
+
+Foo; // ReferenceError: Cannot access 'Foo' before initialization
+
+class Foo {
+  constructor() {}
+}
+```
+
+### Hoisting of function expressions and arrow functions
+Function declarations (`function foo() {}`) are fully hoisted including their body, so you can call them before their definition.
+
+```javascript
+console.log(foo); // undefined
+foo(); // Uncaught TypeError: foo is not a function
+
+var foo = function () {
+  console.log('FOO');
+};
+
+console.log(bar); // undefined
+bar(); // Uncaught TypeError: bar is not a function
+
+var bar = () => {
+  console.log('BAR');
+};
+```
+
+### Hoisting of function declarations
+Function expressions and arrow functions only hoist the variable name, not the assignment—calling them before initialization causes errors.
+
+```javascript
+console.log(foo); // [Function: foo]
+foo(); // 'FOO'
+
+function foo() {
+  console.log('FOO');
+}
+```
+
+### Hoisting of `import` statements
+`import` declarations are hoisted too, and their side effects are executed before the rest of the module runs.
+
+```javascript
+foo.doSomething(); // Works normally.
+
+import foo from './modules/foo';
+```
+
+## What are the potential issues caused by hoisting?
+Hoisting can cause JavaScript code to behave unexpectedly because variable and function declarations appear moved to the top, which can lead to errors or surprising values.
+### `var` becomes `undefined` if used too early
+Only the declaration is hoisted, not the initialization.
+
+```javascript
+console.log(a); // undefined  
+var a = 5;
+```
+
+### **Temporal Dead Zone (TDZ) with** **`let`** **and** **`const`**
+Accessing before declaration causes `ReferenceError`.
+
+```javascript
+console.log(b); // ReferenceError: Cannot access 'b' before initialization  
+let b = 10;
+```
+
+### Function declarations vs expressions
+Function declarations are fully hoisted; function expressions via `var` are not—calling them early throws `TypeError`.
+
+```javascript
+foo(); // works
+function foo() { console.log('Hi'); }
+
+bar(); // TypeError: bar is not a function
+var bar = function() { console.log('Hi'); };
+```
+
+### Unintentional redeclaration with `var`
+`var` does not have block scope; can override variables unexpectedly.
+
+```javascript
+var x = 1;
+if (true) { var x = 2; }
+console.log(x); // 2
+```
+
+## How can you avoid problems related to hoisting?
+To avoid hoisting-related confusion, just declare variables and functions before using them—it makes code more predictable.
+### Use `let` and `const` instead of `var`
+They offer block scoping and do not auto-initialize like `var`, so they reduce hoisting surprises.
+
+```javascript
+console.log(x); // undefined. (Hoisted but uninitialized, risk of unexpected behavior)
+console.log(y); // ReferenceError: Cannot access 'y' before initialization. (Not hoisted)
+console.log(z); // ReferenceError: Cannot access 'z' before initialization. (Not hoisted)
+
+// Avoid using var
+var x = 10; // Hoisted to the top of the function or global scope
+
+// Use let or const
+let y = 20; // Block-scoped, not hoisted to the top
+const z = 30; // Block-scoped, not hoisted to the top
+```
+
+### Declare variables at the top of their scope
+Placing declarations at the start of functions or blocks improves readability and prevents `undefined` issues.
+
+```javascript
+function example() {
+  let a = 1;
+  const b = 2;
+
+  // Now use a and b
+  console.log(a + b);
+}
+example(); // Output: 3
+```
+
+### Declare functions before calling them
+Avoid accidental calls to functions not yet defined due to hoisting.
+
+```javascript
+// Function declaration (hoisted)
+function myFunction() {
+  console.log('Hello, world!');
+}
+myFunction(); // No issues here
+
+// Function expression (not hoisted)
+const anotherFunction = function () {
+  console.log('Hello again!');
+};
+anotherFunction(); // No issues here
+```
+
+### Avoid undeclared variables
+Use `"use strict";` to enforce declaration and prevent unintentional globals.
+
+```javascript
+"use strict";
+
+// Avoid this
+function badExample() {
+  x = 10; // ReferenceError in strict mode
+  console.log(x);
+}
+
+// Do this instead
+function goodExample() {
+  let x = 10; // x is declared
+  console.log(x);
+}
+
+goodExample();
+badExample();
+```
