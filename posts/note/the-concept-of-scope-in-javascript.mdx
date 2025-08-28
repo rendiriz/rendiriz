@@ -1,0 +1,41 @@
+---
+type: Note
+title: The concept of scope in JavaScript
+date: 2023-05-01 00:02
+---
+
+* Scope is the “area” in which a variable or function is accessible—determining who can see or use that data in your code.
+* JavaScript has three main types of scope:
+  * **Global scope**: declared outside functions or blocks—accessible everywhere.
+  * **Function scope**: variables declared inside a function are only accessible within that function.
+  * **Block scope**: with ES6’s `let` and `const`, variables are only accessible within the `{ … }` block where they’re declared.
+
+```js
+var globalVar = 'I am a global variable';
+
+function exampleFunction() {
+  var functionVar = 'I am function-scoped';
+  if (true) {
+    let blockVar = 'I am block-scoped';
+    console.log(globalVar);     // "I am a global variable" – accessible
+    console.log(functionVar);   // "I am function-scoped" – accessible
+    console.log(blockVar);      // "I am block-scoped" – accessible
+  }
+  console.log(globalVar);       // accessible
+  console.log(functionVar);     // accessible
+  // console.log(blockVar);     // Error – blockVar not defined outside the block
+}
+
+exampleFunction();
+
+console.log(globalVar);        // accessible
+// console.log(functionVar);    // Error – functionVar only inside function
+// console.log(blockVar);       // Error – blockVar only inside block
+```
+
+***
+
+Imagine living in a house with multiple rooms and a yard:
+  * If you place an item in the **front yard (global scope)**, anyone in the house can use it.
+  * If you place it in the **living room (function scope)**, only people in that room can access it.
+  * If you put it in a **cabinet inside the living room (block scope)**, it's only accessible when you're inside that living room and open the cabinet.
