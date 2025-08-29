@@ -1,0 +1,51 @@
+---
+type: Note
+title: Differences between JavaScript variables created using let, var or const
+date: 2023-05-01 00:06
+---
+
+`var` is the old way of creating variables, while `let` and `const` are the modern, safer ways.
+*   `let`: can be reassigned.
+*   `const`: cannot be reassigned.
+*   `var`: works differently and often leads to bugs.
+## Differences in behavior
+#### Scope
+*   `var`: function-scoped.
+*   `let` & `const`: block-scoped.
+#### Hoisting
+*   `var`: hoisted, initialized as `undefined`.
+*   `let` & `const`: hoisted but in the _Temporal Dead Zone (TDZ)_ → error if accessed early.
+#### Re-declaration & Re-assignment
+*   `var`: can redeclare & reassign.
+*   `let`: can reassign but not redeclare.
+*   `const`: neither redeclare nor reassign (but object/array contents are mutable).
+#### Global binding
+*   `var` attaches to `window` in browsers.
+*   `let` & `const` do not.
+
+```javascript
+// Scope
+if (true) {
+  var a = 1; // function-scoped
+  let b = 2; // block-scoped
+  const c = 3; // block-scoped
+}
+console.log(a); // 1
+// console.log(b); // Error
+// console.log(c); // Error
+
+// Hoisting
+console.log(x); // undefined
+var x = 10;
+// console.log(y); // ReferenceError (TDZ)
+let y = 20;
+
+// Re-declaration & Re-assignment
+var m = 1; var m = 2; // allowed
+let n = 3; // let n = 4; // Error
+const p = 5; // p = 6; // Error
+
+// const with objects
+const obj = { name: "John" };
+obj.name = "Mike"; // allowed (mutating object property)
+```
