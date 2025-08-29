@@ -47,7 +47,19 @@ export default function NoteDetailPage({ params }: params) {
         </time>
       </div>
 
-      <div className="prose dark:prose-invert max-w-none">
+      <div
+        className={
+          'prose prose-neutral dark:prose-invert max-w-none' +
+          ' prose-headings:scroll-mt-24 prose-h2:mt-8 prose-h3:mt-6' +
+          ' prose-a:text-blue-600 dark:prose-a:text-blue-400 hover:prose-a:underline' +
+          ' prose-img:rounded-lg' +
+          ' prose-ul:my-3 prose-ol:my-3 prose-li:my-1 prose-ul:pl-5 prose-ol:pl-5' +
+          ' prose-code:text-pink-600 dark:prose-code:text-pink-400 prose-code:rounded prose-code:before:content-[none] prose-code:after:content-[none]' +
+          ' prose-pre:bg-neutral-900 prose-pre:text-neutral-100 dark:prose-pre:bg-neutral-900 prose-pre:rounded-lg prose-pre:p-4 prose-pre:shadow-sm' +
+          ' prose-blockquote:border-l-4 prose-blockquote:border-neutral-300 dark:prose-blockquote:border-neutral-700 prose-blockquote:pl-4' +
+          ' prose-hr:border-neutral-200 dark:prose-hr:border-neutral-800'
+        }
+      >
         <Content components={{ Image: PostImage }} />
       </div>
     </article>

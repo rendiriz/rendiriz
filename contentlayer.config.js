@@ -34,6 +34,11 @@ const Note = defineDocumentType(() => ({
   filePathPattern: `posts/note/**/*.mdx`,
   contentType: 'mdx',
   fields: {
+    category: {
+      type: 'string',
+      description: 'Comma separated categories',
+      required: false,
+    },
     title: {
       type: 'string',
       description: 'The title of the post',
