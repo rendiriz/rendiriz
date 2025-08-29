@@ -1,0 +1,115 @@
+---
+type: Note
+title: The concept of this in JavaScript
+date: 2023-05-01 00:05
+---
+
+## What is this?
+`this` is a special keyword in JavaScript that means **“the object that is calling the function.”** Its value depends on how the function is invoked.
+*   In **global scope (non-strict)**: `this` refers to `window` (browser) or `global` (Node.js).
+*   In **strict mode**: `this = undefined`.
+*   In an **object method**: `this` refers to the object calling the method.
+*   In an **arrow function**: `this` has no own binding, it inherits from the surrounding lexical scope.
+*   With **call/apply/bind**: we can explicitly set the value of `this`.
+
+```javascript
+// Global scope
+function globalExample() {
+  console.log(this);
+}
+globalExample(); // window (non-strict), undefined (strict mode)
+
+// Object method
+const user = {
+  name: "John",
+  sayHi() {
+    console.log("Hi, my name is " + this.name);
+  }
+};
+user.sayHi(); // "Hi, my name is John"
+
+// Arrow function (no own this)
+const user2 = {
+  name: "Jane",
+  sayHi: () => {
+    console.log(this.name);
+  }
+};
+user2.sayHi(); // undefined (takes from global scope)
+
+// call/apply/bind
+function greet() {
+  console.log("Hello " + this.name);
+}
+const obj = { name: "Mike" };
+greet.call(obj); // "Hello Mike"
+```
+
+Think of `this` as the word **“I.”** Its meaning depends on who says it. If Budi says “I’m hungry” → it means Budi. If Ani says “I’m hungry” → it means Ani. Same word, different meaning depending on the speaker.
+## What are the common pitfalls of using the `this` keyword?
+Using `this` can be tricky because its meaning changes depending on how a function is called—not where it’s defined.
+Common pitfalls include:
+1. **Losing** **`this`** **context when passing methods as callbacks** — The function runs without its original object context, leading to `undefined` or global `this`.
+
+```javascript
+const obj = {
+  name: "Budi",
+  greet() { console.log(`Hi, ${this.name}`); }
+};
+
+// ❌ Wrong: this losing
+setTimeout(obj.greet, 0);
+
+// ✅ Sloution A: bind
+setTimeout(obj.greet.bind(obj), 0);
+
+// ✅ Sloution B: arrow wrapper
+setTimeout(() => obj.greet(), 0);
+```
+
+2. **Using** **`this`** **in nested functions** — Inner functions don't inherit `this` from outer functions.
+
+```javascript
+const cart = {
+  total: 100,
+  checkout() {
+    // ❌ function method → this losing
+    function log() { console.log(this.total); } 
+    // ✅ arrow method
+    const logFixed = () => console.log(this.total);
+    logFixed(); // 100
+  }
+};
+cart.checkout();
+```
+
+3. **Misusing arrow functions as object methods** — They lack a proper `this` context.
+
+```javascript
+const user = {
+  name: "Ani",
+  // ❌ arrow method
+  say: () => console.log(this.name),
+  // ✅ function method
+  sayOk() { console.log(this.name); }
+};
+user.sayOk(); // "Ani"
+```
+
+4. **Arrow functions in event handlers** — `this` refers to the global context, not the event target.
+
+```javascript
+button.addEventListener("click", () => {
+  console.log(this); // Window / global, not the button
+});
+
+button.addEventListener("click", function (e) {
+  // ✅ this = button, or use e.currentTarget
+  console.log(this === e.currentTarget); // true
+});
+
+// Or avoid this altogether:
+button.addEventListener("click", (e) => {
+  console.log(e.currentTarget); // element
+});
+```
