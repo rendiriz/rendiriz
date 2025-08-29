@@ -1,0 +1,120 @@
+---
+type: Note
+title: The concept of closure in JavaScript
+date: 2023-05-01 00:04
+---
+
+## What is closure?
+A closure is a function that remembers variables from the environment where it was created, even if it’s executed outside that environment.\
+A closure is created when a function is defined inside another function. The inner function keeps a reference to variables in its lexical scope, even after the outer function has finished.
+
+Use cases for closures:
+*   Creating private state (variables hidden from outside).
+*   Function factories.
+*   Supporting callbacks, event handlers, or async logic that needs to “remember” data.
+#### ES6 syntax
+
+```javascript
+const createCounter = () => {
+  let count = 0;
+  return () => {
+    count += 1;
+    return count;
+  };
+};
+
+const counter = createCounter();
+console.log(counter()); // Outputs: 1
+console.log(counter()); // Outputs: 2
+```
+
+#### React syntax
+
+```javascript
+import React, { useState } from 'react';
+
+function Counter() {
+  // Define a state variable using the useState hook
+  const [count, setCount] = useState(0);
+
+  // This handleClick function is a closure
+  function handleClick() {
+    // It can access the 'count' state variable
+    setCount(count + 1);
+  }
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleClick}>Increment</button>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <h1>Counter App</h1>
+      <Counter />
+    </div>
+  );
+}
+
+export default App;
+```
+
+A closure is like an **ATM card + PIN**: even after you leave the bank (outer function ends), you can still access your account (variables) because you carry the key (closure).
+## What are the potential pitfalls of using closures?
+Using closures can introduce issues such as excessive memory use, harder debugging, slower performance, and unexpected results if not handled carefully.
+Common pitfalls include:
+1. **Memory leaks**.
+Closures hold onto variables in their lexical scope. If these variables are large or no longer needed, they stay in memory and prevent garbage collection.
+1. **Debugging complexity**.
+Multiple layers of nested closures can obscure where a bug is coming from.
+1. **Performance issues**.
+Overusing closures, especially unnecessary ones, can hinder performance by blocking efficient memory cleanup and increasing overhead.
+1. **Unintended variable sharing**.
+Using `var` in a loop when creating closures often leads to all closures referencing the same variable, resulting in unexpected outcomes.
+
+```javascript
+// 1. Memory leak
+function createClosure() {
+  let largeArray = new Array(1000000).fill('data');
+  return function() {
+    console.log(largeArray[0]);
+  };
+}
+const closure = createClosure(); // largeArray stays in memory
+
+// 2. Debugging complexity
+function outer() {
+  let x = 10;
+  return function inner() {
+    console.log(x);
+  };
+}
+outer()();
+
+// 3. Performance issue
+function manyClosures() {
+  let count = 0;
+  for (let i = 0; i < 1000000; i++) {
+    (function() { count++; })();
+  }
+  console.log(count);
+}
+manyClosures();
+
+// 4. Unintended variable sharing
+function createFuncs() {
+  const functions = [];
+  for (var i = 0; i < 3; i++) {
+    functions.push(() => console.log(i));
+  }
+  return functions;
+}
+const funcs = createFuncs();
+funcs.forEach(fn => fn()); // All print 3 instead of 0,1,2
+```
+
+Think of closure like carrying a backpack full of stuff—even when you don’t need it anymore. If you keep carrying a bulky backpack full of junk, your journey (code execution) slows and finding what you need becomes harder.
