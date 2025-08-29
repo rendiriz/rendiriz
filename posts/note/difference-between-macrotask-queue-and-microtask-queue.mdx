@@ -1,0 +1,17 @@
+---
+type: Note
+title: Difference between macrotask queue and microtask queue
+date: 2023-05-01 00:08
+---
+
+JavaScript has two queues:
+#### Macrotask queue / Task queue
+*   Big tasks like `setTimeout`, events.
+*   Includes callbacks from `setTimeout`, `setInterval`, `setImmediate` (Node), I/O, DOM events.
+*   The event loop processes **one macrotask**, then checks microtasks.
+#### Microtask queue
+*   Smaller, high-priority tasks like promises.
+*   Includes callbacks from `Promise.then/catch/finally`, `queueMicrotask`, `MutationObserver`.
+*   The event loop **drains all microtasks** before handling the next macrotask.
+
+> **Priority**: microtasks are higher priority, so they run before the next task.

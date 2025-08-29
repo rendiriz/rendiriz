@@ -1,0 +1,51 @@
+---
+type: Note
+title: Event loop in JavaScript runtimes
+date: 2023-05-01 00:07
+---
+
+The event loop is the mechanism in JavaScript that manages how synchronous and asynchronous code runs, since JavaScript can only run one thing at a time.
+*   JavaScript is **single-threaded**, with a single **call stack**.
+*   **Call stack** → executes synchronous code.
+*   **Web/Node APIs** → hold async operations (timers, fetch, I/O).
+*   **Task queue** / **Macrotask queue** → normal async tasks (setTimeout, events).
+*   **Microtask queue** → promises and `process.nextTick`, always executed before the task queue.
+*   **Event loop** → checks if the call stack is empty, then moves tasks from queues (microtasks first, then tasks).
+
+```javascript
+console.log("1. Start"); // goes to call stack immediately
+
+// TASK QUEUE (macro task)
+setTimeout(() => {
+  console.log("5. From setTimeout (task queue)");
+}, 0);
+
+// MICRO TASK QUEUE
+Promise.resolve().then(() => {
+  console.log("3. From Promise (microtask queue)");
+});
+
+// MICRO TASK QUEUE (explicit)
+queueMicrotask(() => {
+  console.log("4. From queueMicrotask (microtask queue)");
+});
+
+// More synchronous work
+console.log("2. End"); // synchronous → runs immediately
+```
+
+Output:
+
+```markdown
+1. Start
+2. End
+3. From Promise (microtask queue)
+4. From queueMicrotask (microtask queue)
+5. From setTimeout (task queue/macrotask queue)
+```
+
+Imagine a restaurant with **one chef**:
+*   **Call stack** = the kitchen, cooking the current dish.
+*   **Task queue** / **Macrotask queue**\= the line of regular customer orders.
+*   **Microtask queue** = the VIP line (promises).
+*   **Event loop** = the waiter who feeds orders to the chef when free → VIPs go first.
