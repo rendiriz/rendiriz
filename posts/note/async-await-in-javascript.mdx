@@ -1,0 +1,38 @@
+---
+type: Note
+category: javascript
+title: async/await in JavaScript
+date: 2023-05-01 00:10
+---
+
+`async/await` is a modern way in JavaScript to write asynchronous code (like fetching data) that looks and reads like synchronous code, making it easier to understand.
+*   Functions declared with `async` **always return a Promise**.
+*   `await` can only be used inside an `async` function. It **pauses execution** until the Promise settles (fulfilled or rejected).
+*   On resolve, `await` returns the value. On reject, it throws an error (handled with `try/catch`).
+*   Internally, it’s syntactic sugar for `.then()` → still runs in the **microtask queue**
+*   Advantage: cleaner async code, less “callback hell” or “.then chaining”.
+
+```javascript
+// Using Promise .then
+fetch("https://api.example.com/data")
+  .then(res => res.json())
+  .then(data => console.log("Data:", data))
+  .catch(err => console.error(err));
+
+// Using async/await
+async function getData() {
+  try {
+    const res = await fetch("https://api.example.com/data");
+    const data = await res.json();
+    console.log("Data:", data);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+getData();
+```
+
+Think of ordering food delivery:
+*   With `.then` → you leave instructions: “when food arrives, do this; if it fails, do that.”
+*   With `async/await` → you just **wait until the food comes** and then continue, like a normal story flow.

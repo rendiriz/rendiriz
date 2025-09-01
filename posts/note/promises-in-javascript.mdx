@@ -1,0 +1,77 @@
+---
+type: Note
+category: javascript
+title: Promises in Javascript
+date: 2023-05-01 00:09
+---
+
+A Promise is a way in JavaScript to handle **asynchronous work** (like fetching data). It represents a value that may be available now, later, or never: it can succeed (fulfilled) or fail (rejected).
+
+A Promise has **three states:**
+1. **pending** → still waiting.
+2. **fulfilled** → completed successfully with a value.
+3. **rejected** → failed with an error.
+
+Use `.then()` to handle success, `.catch()` for errors, `.finally()` for cleanup.\
+Promises run in the **microtask queue**, meaning they’re executed before macrotasks like `setTimeout` .\
+`async/await` is syntactic sugar that makes working with Promises easier and more readable.
+
+```javascript
+const orderFood = new Promise((resolve, reject) => {
+  const success = true;
+  if (success) {
+    resolve("Food delivered!");
+  } else {
+    reject("Restaurant closed.");
+  }
+});
+
+orderFood
+  .then((result) => console.log(result))   // "Food delivered!"
+  .catch((error) => console.error(error)) // if failed
+  .finally(() => console.log("Order finished"));
+```
+
+Think of **ordering food delivery**:
+*   When you place the order → status **pending**.
+*   If the food arrives → **fulfilled**.
+*   If the restaurant is closed → **rejected**.
+## How is `Promise.all()` different from `Promise.allSettled()`?
+#### Promise.all()
+`Promise.all()` waits for all promises, but if **any one fails → it rejects immediately.**
+*   Takes an array of promises.
+*   Resolves with an array of values if all succeed.
+*   Rejects immediately if any promise fails (with the first rejection reason).
+#### Promise.allSettled()
+`Promise.allSettled()` waits for all promises, and always reports back the result of each (success or failure).
+*   Takes an array of promises.
+*   Always resolves with an array of objects describing the outcome of each promise.
+*   Never rejects.
+
+```javascript
+const p1 = Promise.resolve("A success");
+const p2 = Promise.reject("B failed");
+const p3 = Promise.resolve("C success");
+
+// Promise.all
+Promise.all([p1, p2, p3])
+  .then(results => console.log("All success:", results))
+  .catch(error => console.error("Failed fast:", error));
+// Output: "Failed fast: B failed"
+
+// Promise.allSettled
+Promise.allSettled([p1, p2, p3])
+  .then(results => console.log("All settled:", results));
+/*
+Output:
+[
+  { status: "fulfilled", value: "A success" },
+  { status: "rejected", reason: "B failed" },
+  { status: "fulfilled", value: "C success" }
+]
+*/
+```
+
+Imagine ordering 3 meals from different restaurants:
+*   `Promise.all()` → If one restaurant cancels, you consider the whole order failed.
+*   `Promise.allSettled()` → You still get a report: “two meals delivered, one failed.”
