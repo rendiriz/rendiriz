@@ -1,0 +1,54 @@
+---
+type: Note
+category: javascript
+title: the concept of debouncing and throttling in JavaScript
+date: 2023-05-01 00:13
+---
+
+#### Debouncing
+Ensures a function only runs **once after the activity stops** for a certain delay.
+*   Delays execution until the user stops triggering the event.
+*   Use case: search input (wait until user stops typing).
+*   Implementation: reset a timer on each event.
+#### Throttling
+Ensures a function runs at most **once every set interval**, even if called many times.
+*   Limits execution to once per `X` ms.
+*   Use case: scroll, resize, mousemove events.
+*   Implementation: compare with last execution timestamp.
+
+```javascript
+// Debounce
+function debounce(fn, delay) {
+  let timer;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
+const search = debounce((query) => {
+  console.log("Searching:", query);
+}, 500);
+
+document.getElementById("input").addEventListener("keyup", (e) => {
+  search(e.target.value);
+});
+
+// Throttle
+function throttle(fn, delay) {
+  let last = 0;
+  return function(...args) {
+    const now = Date.now();
+    if (now - last >= delay) {
+      fn.apply(this, args);
+      last = now;
+    }
+  };
+}
+
+const logScroll = throttle(() => {
+  console.log("Scroll event:", Date.now());
+}, 1000);
+
+window.addEventListener("scroll", logScroll);
+```

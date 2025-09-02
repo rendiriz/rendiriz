@@ -1,39 +1,37 @@
 ---
 type: Note
 category: javascript
-title: Differences between JavaScript map, filter, reduce, and for...of
-date: 2023-05-01 00:12
+title: Difference between shallow copy and deep copy in Javascript
+date: 2023-05-01 00:13
 ---
 
-*   **map**: creates a new array by transforming each element.
-*   **filter**: creates a new array with only elements that pass a condition.
-*   **reduce**: reduces all elements into a single value.
-*   **for...of**: a simple loop to go through each element without creating a new array.
+#### Shallow copy
+Only copies the first level; nested objects still share references with the original.
+*   **Top-level properties (primitives)** → copied **by value** → safe, changes don’t affect the original.
+*   **Nested properties (objects/arrays)** → copied **by reference** in shallow copy → modifying them also affects the original.
+*   Shallow: spread `{ ...obj }`, `Object.assign()`, `Array.slice()` .
+#### Deep copy
+Copies all levels; nested objects are also duplicated, making it fully independent.
+*   Deep copy duplicates **all levels** → no shared references, even for nested.
+*   Deep: `structuredClone()`, `JSON.parse(JSON.stringify())`, `lodash.cloneDeep()` .
 
 ```javascript
-const nums = [1, 2, 3, 4, 5];
+const original = { 
+  name: "Alice", 
+  address: { city: "Jakarta" } 
+};
 
-// map → multiply by 2
-const doubled = nums.map(n => n * 2);
-// [2, 4, 6, 8, 10]
+// Shallow copy
+const shallow = { ...original };
 
-// filter → keep evens
-const evens = nums.filter(n => n % 2 === 0);
-// [2, 4]
+shallow.name = "Bob";               // top-level → SAFE
+console.log(original.name);         // "Alice"
 
-// reduce → sum
-const sum = nums.reduce((acc, n) => acc + n, 0);
-// 15
+shallow.address.city = "Bandung";   // nested → DANGER
+console.log(original.address.city); // "Bandung" (affected)
 
-// for...of → plain iteration
-for (const n of nums) {
-  console.log(n); // 1, 2, 3, 4, 5
-}
+// Deep copy
+const deep = JSON.parse(JSON.stringify(original));
+deep.address.city = "Surabaya";
+console.log(original.address.city); // "Bandung" (unchanged)
 ```
-
-| Method | Return Value | Performance | Best Use Case | Creates New Array? |
-| ---| ---| ---| ---| --- |
-| `map` | Array (same length) | Medium | Transform all elements | ✅ Yes |
-| `filter` | Array (≤ length) | Medium | Select elements matching a condition | ✅ Yes |
-| `reduce` | Single value | Medium-Slower | Aggregate/combine into one result | ❌ No |
-| `for...of` | None (just loop) | Fastest | Plain iteration, side-effects, max performance | ❌ No |
