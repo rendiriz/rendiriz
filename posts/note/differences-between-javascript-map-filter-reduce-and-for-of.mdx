@@ -1,0 +1,39 @@
+---
+type: Note
+category: javascript
+title: Differences between JavaScript map, filter, reduce, and for...of
+date: 2023-05-01 00:11
+---
+
+*   **map**: creates a new array by transforming each element.
+*   **filter**: creates a new array with only elements that pass a condition.
+*   **reduce**: reduces all elements into a single value.
+*   **for...of**: a simple loop to go through each element without creating a new array.
+
+```javascript
+const nums = [1, 2, 3, 4, 5];
+
+// map → multiply by 2
+const doubled = nums.map(n => n * 2);
+// [2, 4, 6, 8, 10]
+
+// filter → keep evens
+const evens = nums.filter(n => n % 2 === 0);
+// [2, 4]
+
+// reduce → sum
+const sum = nums.reduce((acc, n) => acc + n, 0);
+// 15
+
+// for...of → plain iteration
+for (const n of nums) {
+  console.log(n); // 1, 2, 3, 4, 5
+}
+```
+
+| Method | Return Value | Performance | Best Use Case | Creates New Array? |
+| ---| ---| ---| ---| --- |
+| `map` | Array (same length) | Medium | Transform all elements | ✅ Yes |
+| `filter` | Array (≤ length) | Medium | Select elements matching a condition | ✅ Yes |
+| `reduce` | Single value | Medium-Slower | Aggregate/combine into one result | ❌ No |
+| `for...of` | None (just loop) | Fastest | Plain iteration, side-effects, max performance | ❌ No |
