@@ -1,0 +1,34 @@
+---
+type: Note
+category: javascript
+title: Difference between JavaScript variable that is `null`, `undefined` or undeclared
+date: 2023-05-01 00:16
+---
+
+#### `null`
+An **explicitly empty value** (set intentionally to mean “nothing”).
+*   Primitive type.
+*   Usually assigned by developers to mean “empty”.
+*   `typeof null` → `"object"` (legacy bug in JS).
+#### `undefined`
+A variable that’s **declared but not yet assigned a value.**
+*   Default value for declared variables not initialized.
+*   Also default return from functions with no `return`.
+#### Undeclared
+A variable that’s **never declared** at all.
+*   Variable never declared with `var`, `let`, or `const`.
+*   Direct access → `ReferenceError`.
+*   Safe check via `typeof someVar === "undefined"`.
+
+```javascript
+let a = null;        // null → explicitly empty
+let b;               // undefined → declared but not assigned
+// console.log(c);   // undeclared → ReferenceError
+
+console.log(a); // null
+console.log(b); // undefined
+
+console.log(typeof a); // "object" (quirk)
+console.log(typeof b); // "undefined"
+console.log(typeof c); // "undefined" (typeof avoids ReferenceError)
+```
