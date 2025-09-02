@@ -1,0 +1,54 @@
+---
+type: Note
+category: javascript
+title: Event delegation and event bubbling in JavaScript
+date: 2023-05-01 00:11
+---
+
+## What is event delegation?
+Event delegation is a JavaScript technique where you attach **one event listener on a parent element** instead of adding listeners to every child. The event bubbles up to the parent, and you check which child triggered it.
+
+```javascript
+<ul id="menu">
+  <li>Home</li>
+  <li>About</li>
+  <li>Contact</li>
+</ul>
+
+<script>
+  const menu = document.getElementById("menu");
+
+  // Event delegation: one listener on the parent
+  menu.addEventListener("click", (event) => {
+    if (event.target.tagName === "LI") {
+      console.log("You clicked:", event.target.textContent);
+    }
+  });
+</script>
+```
+
+> **Event delegation** is a **technique** that uses bubbling so you can attach **one listener on the parent** to handle many children.
+## What is event bubbling?
+Event bubbling is when an event triggered on a child element **bubbles up** and also triggers listeners on its parent elements, all the way to the `document` .
+
+```javascript
+<div id="parent">
+  <button id="child">Click Me</button>
+</div>
+
+<script>
+  document.getElementById("child").addEventListener("click", () => {
+    console.log("Button clicked (child)");
+  });
+
+  document.getElementById("parent").addEventListener("click", () => {
+    console.log("Parent div also triggered (bubbling)");
+  });
+
+  document.body.addEventListener("click", () => {
+    console.log("Body also triggered (bubbling)");
+  });
+</script>
+```
+
+> **Event bubbling** is the **mechanism** where an event on a child **bubbles up** to its parents.
