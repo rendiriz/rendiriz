@@ -1,0 +1,30 @@
+---
+type: Note
+category: javascript
+title: Difference between `==` and `===` in JavaScript
+date: 2023-05-01 00:15
+---
+
+#### Loose equality `==`
+Compares values after doing **automatic type conversion.**
+*   Performs **type coercion**.
+*   Example: `5 == "5"` → `true` (string converted to number).
+*   Sometimes leads to unexpected results, e.g., `0 == false` → `true`
+#### Strict equality `===`
+Compares both value **and type**, with no conversion.
+*   No type coercion.
+*   Must match both value and type.
+*   Example: `5 === "5"` → `false`
+
+```javascript
+console.log(5 == "5");   // true  (loose equality → string coerced)
+console.log(5 === "5");  // false (strict equality → type mismatch)
+
+console.log(0 == false);  // true
+console.log(0 === false); // false
+
+console.log(null == undefined);  // true  (special case)
+console.log(null === undefined); // false
+```
+
+> Best practice: prefer `===` for predictable behavior.
