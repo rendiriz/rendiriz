@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run partytown && next build",
+    "build": "pnpm run partytown && next build",
     "start": "next start",
     "lint": "next lint",
     "partytown": "partytown copylib public/~partytown"
@@ -23,9 +23,9 @@
     "date-fns": "^2.29.3",
     "easy-tailwind": "^1.1.0",
     "eslint": "8.36.0",
-    "eslint-config-next": "13.2.4",
+    "eslint-config-next": "14.2.33",
     "mark.js": "^8.11.1",
-    "next": "13.2.4",
+    "next": "14.2.33",
     "next-compose-plugins": "^2.2.1",
     "next-contentlayer": "^0.3.1",
     "next-themes": "^0.2.1",
